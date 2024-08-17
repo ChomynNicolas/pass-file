@@ -5,7 +5,7 @@ import { RegisterForm } from './components/registerForm/RegisterForm';
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Hola mundo en desarrollo movil!</Text>
+      <Text>Hola Fabri de Peru en desarrollo movil!</Text>
       <StatusBar style="auto" />
     </View>
   );
