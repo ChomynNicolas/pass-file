@@ -6,6 +6,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text>Hola mundo en desarrollo movil!</Text>
+      <RegisterForm />
       <StatusBar style="auto" />
     </View>
   );
