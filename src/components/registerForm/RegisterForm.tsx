@@ -1,7 +1,25 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  Pressable,
+} from "react-native";
 import { Formik } from "formik";
+import { firebase, db } from "../../../firebase/config";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+
+import { StackActions } from "@react-navigation/native";
 import * as Yup from "yup";
+import { collection, addDoc } from "firebase/firestore";
+
+import { NavigationProp } from "@react-navigation/native";
+
+interface Props {
+  navigation: NavigationProp<any>;
+}
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("El nombre es requerido"),
@@ -16,15 +34,42 @@ const validationSchema = Yup.object().shape({
     .required("La confirmación de contraseña es requerida"),
 });
 
-export const RegisterForm = () => {
+export const RegisterForm = ({ navigation }: Props) => {
   const [focusedField, setFocusedField] = useState<string | null>(null);
-
 
   return (
     <Formik
       initialValues={{ name: "", email: "", password: "", confirmPassword: "" }}
       validationSchema={validationSchema}
-      onSubmit={(values, actions) => {}}
+      onSubmit={async (values, actions) => {
+        try {
+          const auth = getAuth();
+          const userCredential = await createUserWithEmailAndPassword(
+            auth,
+            values.email,
+            values.password
+          );
+
+          const uid = userCredential.user.uid;
+          const data = {
+            id: uid,
+            email: values.email,
+            name: values.name,
+          };
+
+          try {
+            const userRef = await addDoc(collection(db, "users"), {
+              data,
+            });
+            console.log("Document written with ID: ", userRef.id);
+            navigation.dispatch(StackActions.replace("Login"));
+          } catch (e) {
+            console.error("Error adding document: ", e);
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }}
     >
       {({
         handleChange,
@@ -109,6 +154,13 @@ export const RegisterForm = () => {
             <Text style={styles.errorText}>{errors.confirmPassword}</Text>
           )}
           <Button title="Registrarse" onPress={() => handleSubmit()} />
+          <Text>
+            <Pressable
+              onPress={() => navigation.dispatch(StackActions.replace("Login"))}
+            >
+              <Text>iniciar sesión</Text>
+            </Pressable>
+          </Text>
         </View>
       )}
     </Formik>
@@ -133,6 +185,6 @@ const styles = StyleSheet.create({
   },
   inputFocused: {
     borderColor: "#3837ea", // Color del borde cuando está enfocado
-    borderWidth: 2
+    borderWidth: 2,
   },
 });
