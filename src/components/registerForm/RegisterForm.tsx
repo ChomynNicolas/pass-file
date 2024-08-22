@@ -21,6 +21,7 @@ interface Props {
   navigation: NavigationProp<any>;
 }
 
+
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("El nombre es requerido"),
   email: Yup.string()
@@ -80,7 +81,9 @@ export const RegisterForm = ({ navigation }: Props) => {
         touched,
       }) => (
         <View style={styles.container}>
-          <Text>Registro</Text>
+          <View style={styles.inputContainer}></View>
+          <Text style={styles.title}>Registro</Text>
+          <text style={styles.subtitle}>Crear una cuenta</text>
           <TextInput
             placeholder="Nombre"
             onChangeText={handleChange("name")}
@@ -153,12 +156,12 @@ export const RegisterForm = ({ navigation }: Props) => {
           {touched.confirmPassword && errors.confirmPassword && (
             <Text style={styles.errorText}>{errors.confirmPassword}</Text>
           )}
-          <Button title="Registrarse" onPress={() => handleSubmit()} />
+          <Button title="Registrarse" onPress={() => handleSubmit()} color="#3837ea" />
           <Text>
             <Pressable
               onPress={() => navigation.dispatch(StackActions.replace("Login"))}
             >
-              <Text>iniciar sesión</Text>
+              <Text style={styles.link}>iniciar sesión</Text>
             </Pressable>
           </Text>
         </View>
@@ -169,15 +172,61 @@ export const RegisterForm = ({ navigation }: Props) => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "#4567b7",
+  },
+  title:{
+    fontSize: 36,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    fontFamily: "OpenSans-Bold",
+    color: "#ffffff",
+  },
+  subtitle:{
+    fontSize: 20,
+    color: '#cccccc',
+    marginBottom: 20,
+    fontFamily: "OpenSans-Regular",
+  },
+  inputContainer:{
+    marginBottom: 20,
+  },
+  button:{
+    backgroundColor: '#3837ea',
+    padding: 15,
+    borderRadius: 25,
+    width: 250,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  link:{
+    fontSize: 16,
+    color: '#3837ea',
+    textDecorationLine: 'underline',
   },
   input: {
-    padding: 10,
+    padding: 15,
     borderWidth: 1,
     borderColor: "#3837ea", // Color del borde cuando no está enfocado
-    borderRadius: 5,
-    width: 200,
+    borderRadius: 25,
+    width: 250,
+    backgroundColor: "#ffffff",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   errorText: {
     marginBottom: 5,
