@@ -7,7 +7,7 @@ export default function App() {
     <SafeAreaView style={{ flex: 1, backgroundColor: '#751dc6' }} edges={["top"]}  >
       <StatusBar
         style="light" // "light" para texto claro, "dark" para texto oscuro
-        backgroundColor={Platform.OS === 'android' ? "#FF6347" : "transparent"} // Color de fondo en Android
+        backgroundColor={Platform.OS === 'android' ? "#751dc6" : "transparent"} // Color de fondo en Android
         translucent={Platform.OS === 'android'} // Android: translucent
       />
       <View style={styles.container}>
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 28,
-    fontWeight: 700,
+    fontWeight: "700",
     color: "#d9e4df",
   },
   optionsContainer: {

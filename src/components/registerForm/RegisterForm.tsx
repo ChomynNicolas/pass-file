@@ -9,8 +9,8 @@ import {
   ImageBackground,
 } from "react-native";
 import { Formik } from "formik";
-import { firebase, db } from "../../../firebase/config";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { auth,db } from "../../../firebase/config";
+import {  createUserWithEmailAndPassword } from "firebase/auth";
 
 import { StackActions } from "@react-navigation/native";
 import * as Yup from "yup";
@@ -20,6 +20,8 @@ import { NavigationProp } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 
 const image = require("../../../assets/fondo_de_pantalla.png");
+
+
 
 interface Props {
   navigation: NavigationProp<any>;
@@ -47,7 +49,7 @@ export const RegisterForm = ({ navigation }: Props) => {
       validationSchema={validationSchema}
       onSubmit={async (values, actions) => {
         try {
-          const auth = getAuth();
+          
           const userCredential = await createUserWithEmailAndPassword(
             auth,
             values.email,
@@ -62,6 +64,7 @@ export const RegisterForm = ({ navigation }: Props) => {
           };
 
           try {
+            
             const userRef = await addDoc(collection(db, "users"), {
               data,
             });
@@ -213,22 +216,20 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   inputsContainer: {
-    gap: 40,
-    marginBottom: 40,
+    gap: 20,
+    marginBottom: 25,
   },
   title: {
     fontSize: 36,
     fontWeight: "bold",
     marginTop: 10,
     marginBottom: 10,
-    fontFamily: "OpenSans-Bold",
     color: "#ffffff",
   },
   subtitle: {
     fontSize: 20,
-    color: "#cccccc",
+    color: "#faf8f5",
     marginBottom: 20,
-    fontFamily: "OpenSans-Regular",
   },
   inputContainer: {
     marginBottom: 20,
@@ -279,6 +280,7 @@ const styles = StyleSheet.create({
   },
   textBoxParent: {
     justifyContent: "center",
+    marginBottom: 5
   },
   errorText: {
     position: "absolute",
@@ -291,6 +293,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     textAlign: "center",
     color: "#ff0900",
+  
   },
   inputFocused: {
     borderColor: "#3837ea", // Color del borde cuando está enfocado
