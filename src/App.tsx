@@ -23,7 +23,7 @@ export default function App() {
       >
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="inicio" component={Home} />
       </Stack.Navigator>
     </NavigationContainer>
   );
